@@ -1,4 +1,4 @@
-package dev.xyzjesper.papertemplate.config
+package me.jesforge.econix.config
 
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -27,4 +27,8 @@ inline fun <reified T : Any> File.loadConfig(default: T): T {
 inline fun <reified T : Any> File.saveConfig(config: T) {
     if (!exists() && parentFile != null) parentFile.mkdirs()
     writeText(json.encodeToString(config))
+}
+
+inline fun <reified T> loadFromFile(file: File): T {
+    return Json.decodeFromString<T>(file.readText())
 }

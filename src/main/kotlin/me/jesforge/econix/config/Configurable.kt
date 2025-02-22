@@ -1,4 +1,4 @@
-package dev.xyzjesper.papertemplate.config
+package me.jesforge.econix.config
 
 interface Configurable {
     fun save()

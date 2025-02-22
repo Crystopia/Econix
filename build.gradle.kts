@@ -3,7 +3,7 @@ plugins {
     id("com.gradleup.shadow") version "9.0.0-beta8"
     id("io.papermc.paperweight.userdev") version "1.7.5"
     id("xyz.jpenilla.run-paper") version "2.3.1"
-    id("de.eldoria.plugin-yml.bukkit") version "0.7.0"
+    id("de.eldoria.plugin-yml.bukkit") version "0.7.1"
     kotlin("plugin.serialization") version "2.1.0"
 }
 
@@ -24,6 +24,9 @@ repositories {
     mavenCentral()
     maven("https://repo.papermc.io/repository/maven-public/")
     maven("https://repo.flyte.gg/releases")
+    maven("https://jitpack.io")
+    maven("https://repo.extendedclip.com/releases/")
+
 }
 
 dependencies {
@@ -44,6 +47,17 @@ dependencies {
     compileOnly("dev.jorel:commandapi-bukkit-core:${commandAPIVersion}")
     implementation("dev.jorel:commandapi-bukkit-shade-mojang-mapped:${commandAPIVersion}")
     implementation("dev.jorel:commandapi-bukkit-kotlin:${commandAPIVersion}")
+
+    // Vault
+    compileOnly("com.github.MilkBowl:VaultAPI:1.7")
+
+    // PAPI
+    compileOnly("me.clip:placeholderapi:2.11.6")
+
+    // SQL
+    implementation("org.ktorm:ktorm-core:3.6.0")
+    implementation("org.ktorm:ktorm-support-sqlite:3.6.0")
+    implementation("mysql:mysql-connector-java:8.0.33")
 }
 
 kotlin {
@@ -61,11 +75,12 @@ tasks {
     }
 }
 
-paper {
+bukkit {
     name = projectName
     version = version
     description = projectDescription
     main = mainClass
-    authors = listOf("xyzjesper")
+    authors = listOf("jesforge")
     apiVersion = "1.19"
+    softDepend = listOf("PlaceholderAPI", "Vault")
 }
