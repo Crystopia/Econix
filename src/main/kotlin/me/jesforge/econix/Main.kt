@@ -2,13 +2,14 @@
 
 import dev.jorel.commandapi.CommandAPI
 import dev.jorel.commandapi.CommandAPIBukkitConfig
+import me.jesforge.econix.commands.CurrencyCommand
+import me.jesforge.econix.commands.EconixCommand
 import me.jesforge.econix.config.ConfigManager
 import me.jesforge.econix.database.DatabaseManager
 import me.jesforge.econix.events.JoinEvent
 import me.jesforge.econix.hooks.PlaceholderAPIHook
 import me.jesforge.econix.hooks.vault.VaultEconomyHook
 import me.jesforge.econix.utils.DefaultLoader
-import net.milkbowl.vault.economy.Economy
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 
@@ -19,14 +20,12 @@ class Main : JavaPlugin() {
         lateinit var instance: Main
     }
 
-    var plugin = this
-
     init {
         instance = this
     }
 
     override fun onLoad() {
-        CommandAPI.onLoad(CommandAPIBukkitConfig(this).verboseOutput(true))
+        CommandAPI.onLoad(CommandAPIBukkitConfig(this).silentLogs(true))
 
         DatabaseManager.init()
         DefaultLoader().loadDefaultCurrencys()
@@ -50,10 +49,17 @@ class Main : JavaPlugin() {
         if (Bukkit.getPluginManager().isPluginEnabled("Vault")) {
             logger.info("Hooking into Vault")
             // See VaultEconomyHook for the Currency...
-            VaultEconomyHook().setup(this, "ttt")
+            VaultEconomyHook().setup(this, ConfigManager.currency.currencys.filter {
+                it.value.vautlHook
+            }.firstNotNullOf {
+                it.value.id
+            })
         } else {
             logger.warning("Vault is not enabled!")
         }
+
+        EconixCommand()
+        CurrencyCommand()
 
         val settings = ConfigManager.settings
 
