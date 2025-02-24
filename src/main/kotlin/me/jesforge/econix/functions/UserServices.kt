@@ -115,9 +115,10 @@ class UserServices {
     }
 
     fun getCurrency(player: Player, currency: String): Double {
+        println(DatabaseManager.database.toString())
         try {
             DatabaseManager.database!!.useConnection { connection ->
-                println("Connection: $connection")
+
                 val insertQuery = connection.prepareStatement(
                     "SELECT currencys FROM users WHERE uuid = ?"
                 )
