@@ -101,7 +101,6 @@ publishing {
             artifactId = "econix"
             groupId = groupID
             version = projectVersion
-
         }
     }
 }
