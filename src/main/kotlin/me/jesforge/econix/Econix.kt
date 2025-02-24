@@ -3,6 +3,7 @@
 import dev.jorel.commandapi.CommandAPI
 import dev.jorel.commandapi.CommandAPIBukkitConfig
 import me.jesforge.econix.api.EconixAPI
+import me.jesforge.econix.api.EconixAPIImpl
 import me.jesforge.econix.commands.CurrencyCommand
 import me.jesforge.econix.commands.EconixCommand
 import me.jesforge.econix.config.ConfigManager
@@ -75,7 +76,7 @@ class Econix : JavaPlugin() {
     }
 
     fun getAPI(): EconixAPI {
-        return EconixAPI()
+        return EconixAPIImpl()
     }
 
 }
