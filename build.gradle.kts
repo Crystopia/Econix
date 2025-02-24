@@ -90,7 +90,7 @@ publishing {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/Crystopia/Econix")
             credentials {
-                username = System.getenv("GITHUB_USERNAME") ?: "USERNAME"
+                username = System.getenv("Crystopia") ?: "USERNAME"
                 password = System.getenv("GH_PACKAGES_TOKEN") ?: "TOKEN"
             }
         }
