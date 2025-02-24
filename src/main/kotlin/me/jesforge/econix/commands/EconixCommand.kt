@@ -14,6 +14,7 @@ class EconixCommand {
     val mm = MiniMessage.miniMessage()
 
     val commands = commandTree("econix", "econix") {
+        withPermission("crystopia.commands.econix.econix")
         executes(CommandExecutor { sender, args ->
             sender.sendMessage(
                 mm.deserialize(

@@ -19,6 +19,7 @@ class CurrencyCommand {
     val commands = ConfigManager.currency.currencys.forEach {
 
         commandTree(it.value.commandName, "econix") {
+            withPermission("crystopia.commands.econix.${it.value.commandName}")
             literalArgument("give") {
                 playerArgument("player") {
                     doubleArgument("amount") {
@@ -33,7 +34,7 @@ class CurrencyCommand {
                             } else if (req == ErrorCodes.SUCCESS) {
                                 sender.sendMessage(
                                     mm.deserialize(
-                                    "<color:#9effa1>You have added <gray>${
+                                        "<color:#9effa1>You have added <gray>${
                                     args[1].toString().toDouble()
                                 } ${
                                     it.value.symbol.ifEmpty { it.value.name }
@@ -63,7 +64,7 @@ class CurrencyCommand {
                             } else if (req == ErrorCodes.SUCCESS) {
                                 sender.sendMessage(
                                     mm.deserialize(
-                                        "<color:#9effa1>You have removed <gray>${
+                                    "<color:#9effa1>You have removed <gray>${
                                     args[1].toString().toDouble()
                                 } ${
                                     it.value.symbol.ifEmpty { it.value.name }
@@ -97,7 +98,7 @@ class CurrencyCommand {
                             } else if (req == ErrorCodes.SUCCESS) {
                                 sender.sendMessage(
                                     mm.deserialize(
-                                    "<color:#9effa1>You have set <gray>${
+                                        "<color:#9effa1>You have set <gray>${
                                     args[1].toString().toDouble()
                                 } ${
                                     it.value.symbol.ifEmpty { it.value.name }
@@ -157,32 +158,18 @@ class CurrencyCommand {
                                 args[0] as Player, args[1].toString().toDouble(), it.value.id
                             )
 
+                            UserServices().convertToItem(
+                                currency = it.value.id,
+                                amount = args[1].toString().toDouble(),
+                                player = args[0] as Player
+                            )
+
                             if (req == ErrorCodes.ERROR) {
                                 sender.sendMessage(mm.deserialize("<color:#ff5d3d>There was a problem with the process</color>"))
+                            } else if (req == ErrorCodes.TOO_LOW) {
+                                mm.deserialize("<red>This user has not enough ${it.value.symbol}!</red>")
+                                return@CommandExecutor
                             } else if (req == ErrorCodes.SUCCESS) {
-
-
-                                // AUSLAGERN IN FUNCTION!
-                                val key = NamespacedKey(Main.instance, "econix.currency.${it.value.id}")
-                                val player = args[0] as Player
-                                val currencyItem =
-                                    ItemStack(ConfigManager.currency.currencys[it.value.id]!!.currencyItem.item)
-                                val currencyMetaData = currencyItem.itemMeta
-                                currencyItem.name(ConfigManager.currency.currencys[it.value.id]!!.currencyItem.name)
-                                currencyMetaData.setCustomModelData(ConfigManager.currency.currencys[it.value.id]!!.currencyItem.customModeData)
-                                currencyMetaData.persistentDataContainer.set(
-                                    key, PersistentDataType.DOUBLE, args[1].toString().toDouble()
-                                )
-                                currencyMetaData.lore(ConfigManager.currency.currencys[it.value.id]?.currencyItem?.lore?.map { line ->
-                                    mm.deserialize(
-                                        line
-                                    )
-                                } ?: emptyList())
-                                currencyItem.itemMeta = currencyMetaData
-
-                                player.inventory.addItem(currencyItem)
-                                //ENDE
-
                                 sender.sendMessage(
                                     mm.deserialize(
                                         "<color:#9effa1>You have removed <gray>${
