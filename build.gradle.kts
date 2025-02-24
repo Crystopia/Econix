@@ -99,13 +99,16 @@ publishing {
         create<MavenPublication>("gpr") {
             from(components["java"])
             artifactId = "econix"
+            groupId = groupID
+            version = projectVersion
+
         }
     }
 }
 
 bukkit {
     name = projectName
-    version = version
+    version = projectVersion
     description = projectDescription
     main = mainClass
     authors = listOf("jesforge")
