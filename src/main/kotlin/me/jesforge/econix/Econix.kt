@@ -19,6 +19,10 @@ import org.bukkit.plugin.java.JavaPlugin
 class Econix : JavaPlugin() {
 
     companion object {
+        fun getAPI(): EconixAPI {
+            return EconixAPIImpl()
+        }
+
         lateinit var instance: Econix
     }
 
@@ -73,10 +77,6 @@ class Econix : JavaPlugin() {
         CommandAPI.onDisable()
 
         logger.info("Plugin disabled!")
-    }
-
-    fun getAPI(): EconixAPI {
-        return EconixAPIImpl()
     }
 
 }
