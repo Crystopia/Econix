@@ -7,8 +7,6 @@ import org.bukkit.entity.Player
 class EconixAPI {
     companion object {
 
-        var econixPlugin = Main.instance
-
         fun getBalance(player: Player, currency: String): Double {
             return UserServices().getCurrency(player, currency)
         }
