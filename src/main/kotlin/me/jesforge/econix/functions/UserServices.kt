@@ -5,7 +5,6 @@ import kotlinx.serialization.json.Json
 import me.jesforge.econix.database.DatabaseManager
 import me.jesforge.econix.utils.ErrorCodes
 import org.bukkit.entity.Player
-import java.io.IOException
 
 class UserServices {
 

@@ -21,6 +21,7 @@ object DatabaseManager {
         } catch (ex: Exception) {
             Main.instance.logger.warning(ex.toString())
             Main.instance.logger.warning("Couldn't initialize database")
+            Main.instance.server.pluginManager.disablePlugin(Main.instance)
         }
     }
 
