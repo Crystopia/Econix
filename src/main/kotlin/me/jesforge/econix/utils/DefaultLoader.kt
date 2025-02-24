@@ -15,7 +15,7 @@ class DefaultLoader {
             vautlHook = true,
             commandName = "crystals",
             currencyItem = CurrencyIcon(
-                item = Material.DIAMOND, customModeData = 1
+                item = Material.DIAMOND, customModeData = 1, name = "{amount}x Crystals", lore = mutableListOf()
             ),
             startValue = 0.0,
             maxValue = -1.0,

@@ -35,10 +35,10 @@ class CurrencyCommand {
                                 sender.sendMessage(
                                     mm.deserialize(
                                         "<color:#9effa1>You have added <gray>${
-                                    args[1].toString().toDouble()
-                                } ${
-                                    it.value.symbol.ifEmpty { it.value.name }
-                                }</gray> to <b>${(args[0] as Player).name}</b>.</color>"))
+                                            args[1].toString().toDouble()
+                                        } ${
+                                            it.value.symbol.ifEmpty { it.value.name }
+                                        }</gray> to <b>${(args[0] as Player).name}</b>.</color>"))
                             } else if (req == ErrorCodes.DATABASE_ERROR) {
                                 sender.sendMessage(mm.deserialize("<color:#ff5d3d>An error has occurred with the database</color>"))
                             } else if (req == ErrorCodes.NO_CURRENCY) {
@@ -64,15 +64,15 @@ class CurrencyCommand {
                             } else if (req == ErrorCodes.SUCCESS) {
                                 sender.sendMessage(
                                     mm.deserialize(
-                                    "<color:#9effa1>You have removed <gray>${
-                                    args[1].toString().toDouble()
-                                } ${
-                                    it.value.symbol.ifEmpty { it.value.name }
-                                }</gray> from <b>${(args[0] as Player).name}'s account</b>. <gray>(now ${
-                                    UserServices().getCurrency(
-                                        args[0] as Player, it.value.id
-                                    )
-                                } ${it.value.symbol})</color>"))
+                                        "<color:#9effa1>You have removed <gray>${
+                                            args[1].toString().toDouble()
+                                        } ${
+                                            it.value.symbol.ifEmpty { it.value.name }
+                                        }</gray> from <b>${(args[0] as Player).name}'s account</b>. <gray>(now ${
+                                            UserServices().getCurrency(
+                                                args[0] as Player, it.value.id
+                                            )
+                                        } ${it.value.symbol})</color>"))
                             } else if (req == ErrorCodes.DATABASE_ERROR) {
                                 sender.sendMessage(mm.deserialize("<color:#ff5d3d>An error has occurred with the database</color>"))
                             } else if (req == ErrorCodes.NO_CURRENCY) {
@@ -99,10 +99,10 @@ class CurrencyCommand {
                                 sender.sendMessage(
                                     mm.deserialize(
                                         "<color:#9effa1>You have set <gray>${
-                                    args[1].toString().toDouble()
-                                } ${
-                                    it.value.symbol.ifEmpty { it.value.name }
-                                }</gray> to <b>${(args[0] as Player).name}'s</b> account.</color>"))
+                                            args[1].toString().toDouble()
+                                        } ${
+                                            it.value.symbol.ifEmpty { it.value.name }
+                                        }</gray> to <b>${(args[0] as Player).name}'s</b> account.</color>"))
                             } else if (req == ErrorCodes.DATABASE_ERROR) {
                                 sender.sendMessage(mm.deserialize("<color:#ff5d3d>An error has occurred with the database</color>"))
                             } else if (req == ErrorCodes.NO_CURRENCY) {
@@ -129,11 +129,11 @@ class CurrencyCommand {
                                 } else if (req == ErrorCodes.SUCCESS) {
                                     sender.sendMessage(
                                         mm.deserialize(
-                                        "<color:#9effa1>You have added <gray>${
-                                        args[1].toString().toDouble()
-                                    } ${
-                                        it.value.symbol.ifEmpty { it.value.name }
-                                    }</gray> to <b>${(args[0] as Player).name}</b>.</color>"))
+                                            "<color:#9effa1>You have added <gray>${
+                                                args[1].toString().toDouble()
+                                            } ${
+                                                it.value.symbol.ifEmpty { it.value.name }
+                                            }</gray> to <b>${(args[0] as Player).name}</b>.</color>"))
                                 } else if (req == ErrorCodes.DATABASE_ERROR) {
                                     sender.sendMessage(mm.deserialize("<color:#ff5d3d>An error has occurred with the database</color>"))
                                 } else if (req == ErrorCodes.NO_CURRENCY) {
@@ -158,12 +158,6 @@ class CurrencyCommand {
                                 args[0] as Player, args[1].toString().toDouble(), it.value.id
                             )
 
-                            UserServices().convertToItem(
-                                currency = it.value.id,
-                                amount = args[1].toString().toDouble(),
-                                player = args[0] as Player
-                            )
-
                             if (req == ErrorCodes.ERROR) {
                                 sender.sendMessage(mm.deserialize("<color:#ff5d3d>There was a problem with the process</color>"))
                             } else if (req == ErrorCodes.TOO_LOW) {
@@ -173,14 +167,21 @@ class CurrencyCommand {
                                 sender.sendMessage(
                                     mm.deserialize(
                                         "<color:#9effa1>You have removed <gray>${
-                                    args[1].toString().toDouble()
-                                } ${
-                                    it.value.symbol.ifEmpty { it.value.name }
-                                }</gray> from <b>${(args[0] as Player).name}'s account</b>. <gray>(now ${
-                                    UserServices().getCurrency(
-                                        args[0] as Player, it.value.id
-                                    )
-                                } ${it.value.symbol})</color>"))
+                                            args[1].toString().toDouble()
+                                        } ${
+                                            it.value.symbol.ifEmpty { it.value.name }
+                                        }</gray> from <b>${(args[0] as Player).name}'s account</b>. <gray>(now ${
+                                            UserServices().getCurrency(
+                                                args[0] as Player, it.value.id
+                                            )
+                                        } ${it.value.symbol})</color>"))
+
+                                UserServices().currencyToItem(
+                                    currency = it.value.id,
+                                    amount = args[1].toString().toDouble(),
+                                    player = args[0] as Player
+                                )
+
                                 sender.sendMessage(mm.deserialize("<gray>Added item to the player successfully!</gray>"))
                             } else if (req == ErrorCodes.DATABASE_ERROR) {
                                 sender.sendMessage(mm.deserialize("<color:#ff5d3d>An error has occurred with the database</color>"))
@@ -205,7 +206,6 @@ class CurrencyCommand {
                                 "<color:#9effa1>The Balance from <b>${(args[0] as Player).name}'s</b> is <gray>${req} ${it.value.symbol}</gray> to  account.</color>"
                             )
                         )
-
                     })
 
                 }

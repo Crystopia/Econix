@@ -2,11 +2,15 @@
 
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import me.jesforge.econix.Main
 import me.jesforge.econix.config.ConfigManager
+import me.jesforge.econix.data.Currency
+import me.jesforge.econix.data.CurrencyIcon
 import me.jesforge.econix.database.DatabaseManager
+import org.bukkit.Material
 import org.bukkit.entity.Player
 
-class CurrencyUpdater {
+class CurrencyServices {
 
     fun updatePlayerCurrencies(player: Player) {
         val currentCurrencies = ConfigManager.currency.currencys.map { it.value.id }
@@ -54,6 +58,19 @@ class CurrencyUpdater {
 
                 println("Added new player: ${player.name} with default currencies.")
             }
+        }
+    }
+
+    fun registerCurrency(currency: Currency, currencyId: String) {
+
+        if (ConfigManager.currency.currencys.contains(currencyId)) {
+            return
+        }
+        ConfigManager.currency.currencys[currencyId] = currency
+        ConfigManager.save()
+        ConfigManager.reload()
+        Main.instance.server.onlinePlayers.forEach { player ->
+            updatePlayerCurrencies(player)
         }
     }
 

@@ -137,15 +137,19 @@ class UserServices {
         }
     }
 
-    fun convertToItem(player: Player, currency: String, amount: Double) {
+    fun currencyToItem(player: Player, currency: String, amount: Double) {
         val key = NamespacedKey(Main.instance, "econix.currency.${currency}")
         val currencyItem =
             ItemStack(ConfigManager.currency.currencys[currency]!!.currencyItem.item)
         val currencyMetaData = currencyItem.itemMeta
         val displayName: Component =
-            MiniMessage.miniMessage().deserialize(ConfigManager.currency.currencys[currency]!!.currencyItem.name)
-        // FIXEN...
-        currencyItem.displayName()
+            MiniMessage.miniMessage().deserialize(
+                ConfigManager.currency.currencys[currency]!!.currencyItem.name.replace(
+                    "{amount}",
+                    amount.toString()
+                ).replace("{currency}", currency)
+            )
+        currencyMetaData.displayName(displayName)
         currencyMetaData.setCustomModelData(ConfigManager.currency.currencys[currency]!!.currencyItem.customModeData)
         currencyMetaData.persistentDataContainer.set(
             key, PersistentDataType.DOUBLE, amount

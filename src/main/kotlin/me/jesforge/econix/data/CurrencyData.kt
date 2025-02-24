@@ -27,6 +27,6 @@ data class Currency(
 data class CurrencyIcon(
     var item: Material = Material.STONE,
     var customModeData: Int = 1,
-    var name: String = "Crystals",
+    var name: String = "",
     var lore: MutableList<String> = mutableListOf(),
 )

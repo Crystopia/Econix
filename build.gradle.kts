@@ -6,6 +6,7 @@ plugins {
     id("xyz.jpenilla.run-paper") version "2.3.1"
     id("de.eldoria.plugin-yml.bukkit") version "0.7.1"
     kotlin("plugin.serialization") version "2.1.0"
+    id("maven-publish")
 }
 
 val mcVersion = properties["minecraftVerions"] as String
@@ -80,6 +81,25 @@ tasks.build {
 tasks {
     runServer {
         minecraftVersion(mcVersion)
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/Crystopia/Econix")
+            credentials {
+                username = System.getenv("GITHUB_USERNAME") ?: "USERNAME"
+                password = System.getenv("GH_PACKAGES_TOKEN") ?: "TOKEN"
+            }
+        }
+    }
+    publications {
+        create<MavenPublication>("gpr") {
+            from(components["java"])
+            artifactId = "econix"
+        }
     }
 }
 
