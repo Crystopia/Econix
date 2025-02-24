@@ -6,7 +6,7 @@ import org.ktorm.database.Database
 
 object DatabaseManager {
 
-    var database: Database? = null
+    lateinit var database: Database
 
     fun init() {
         try {
