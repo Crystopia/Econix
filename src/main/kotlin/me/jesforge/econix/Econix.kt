@@ -22,7 +22,6 @@ class Econix : JavaPlugin() {
         fun getAPI(): EconixAPI {
             return EconixAPIImpl()
         }
-
         lateinit var instance: Econix
     }
 
