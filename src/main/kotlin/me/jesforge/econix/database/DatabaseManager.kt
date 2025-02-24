@@ -6,11 +6,11 @@ import org.ktorm.database.Database
 
 object DatabaseManager {
 
-    lateinit var database: Database
+    var database: Database? = null
 
     fun init() {
         try {
-            database = Database.connect(
+            this.database = Database.connect(
                 url = ConfigManager.settings.database.url!!,
                 user = ConfigManager.settings.database.username,
                 password = ConfigManager.settings.database.password,
@@ -27,7 +27,7 @@ object DatabaseManager {
 
     private fun createUsers() {
         println("Loading users table")
-        database.useConnection { conn ->
+        database!!.useConnection { conn ->
             conn.createStatement().use { stmt ->
                 stmt.executeUpdate(
                     """

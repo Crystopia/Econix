@@ -15,7 +15,7 @@ class CurrencyServices {
     fun updatePlayerCurrencies(player: Player) {
         val currentCurrencies = ConfigManager.currency.currencys.map { it.value.id }
 
-        DatabaseManager.database.useConnection { connection ->
+        DatabaseManager.database!!.useConnection { connection ->
             val query = connection.prepareStatement(
                 "SELECT currencys FROM users WHERE uuid = ?"
             )

@@ -18,7 +18,7 @@ class UserServices {
 
     fun giveCurrency(player: Player, amount: Double, currency: String): ErrorCodes {
         try {
-            DatabaseManager.database.useConnection { connection ->
+            DatabaseManager.database!!.useConnection { connection ->
                 val insertQuery = connection.prepareStatement(
                     "SELECT currencys FROM users WHERE uuid = ?"
                 )
@@ -51,7 +51,7 @@ class UserServices {
 
     fun setCurrency(player: Player, amount: Double, currency: String): ErrorCodes {
         try {
-            DatabaseManager.database.useConnection { connection ->
+            DatabaseManager.database!!.useConnection { connection ->
                 val insertQuery = connection.prepareStatement(
                     "SELECT currencys FROM users WHERE uuid = ?"
                 )
@@ -84,7 +84,7 @@ class UserServices {
 
     fun removeCurrency(player: Player, amount: Double, currency: String): ErrorCodes {
         try {
-            DatabaseManager.database.useConnection { connection ->
+            DatabaseManager.database!!.useConnection { connection ->
                 val insertQuery = connection.prepareStatement(
                     "SELECT currencys FROM users WHERE uuid = ?"
                 )
@@ -117,7 +117,7 @@ class UserServices {
 
     fun getCurrency(player: Player, currency: String): Double {
         try {
-            DatabaseManager.database.useConnection { connection ->
+            DatabaseManager.database!!.useConnection { connection ->
                 val insertQuery = connection.prepareStatement(
                     "SELECT currencys FROM users WHERE uuid = ?"
                 )
