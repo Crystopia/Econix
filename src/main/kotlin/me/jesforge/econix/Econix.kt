@@ -19,17 +19,14 @@ class Econix : JavaPlugin() {
 
     companion object {
         lateinit var instance: Econix
-        lateinit var api: EconixAPI
     }
 
     init {
         instance = this
-        api = EconixAPI()
     }
 
     override fun onLoad() {
         CommandAPI.onLoad(CommandAPIBukkitConfig(this).silentLogs(true))
-
         DatabaseManager.init()
         DefaultLoader().loadDefaultCurrencys()
 
@@ -75,6 +72,10 @@ class Econix : JavaPlugin() {
         CommandAPI.onDisable()
 
         logger.info("Plugin disabled!")
+    }
+
+    fun getAPI(): EconixAPI {
+        return EconixAPI()
     }
 
 }
