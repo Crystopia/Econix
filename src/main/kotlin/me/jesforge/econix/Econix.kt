@@ -19,12 +19,12 @@ class Econix : JavaPlugin() {
 
     companion object {
         lateinit var instance: Econix
+        lateinit var api: EconixAPI
     }
-
-    var api = EconixAPI()
 
     init {
         instance = this
+        api = EconixAPI()
     }
 
     override fun onLoad() {
