@@ -2,12 +2,10 @@
 
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import me.jesforge.econix.Main
+import me.jesforge.econix.Econix
 import me.jesforge.econix.config.ConfigManager
 import me.jesforge.econix.data.Currency
-import me.jesforge.econix.data.CurrencyIcon
 import me.jesforge.econix.database.DatabaseManager
-import org.bukkit.Material
 import org.bukkit.entity.Player
 
 class CurrencyServices {
@@ -69,7 +67,7 @@ class CurrencyServices {
         ConfigManager.currency.currencys[currencyId] = currency
         ConfigManager.save()
         ConfigManager.reload()
-        Main.instance.server.onlinePlayers.forEach { player ->
+        Econix.instance.server.onlinePlayers.forEach { player ->
             updatePlayerCurrencies(player)
         }
     }

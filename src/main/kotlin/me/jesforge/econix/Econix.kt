@@ -2,6 +2,7 @@
 
 import dev.jorel.commandapi.CommandAPI
 import dev.jorel.commandapi.CommandAPIBukkitConfig
+import me.jesforge.econix.api.EconixAPI
 import me.jesforge.econix.commands.CurrencyCommand
 import me.jesforge.econix.commands.EconixCommand
 import me.jesforge.econix.config.ConfigManager
@@ -14,10 +15,11 @@ import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 
 
-class Main : JavaPlugin() {
+class Econix : JavaPlugin() {
 
     companion object {
-        lateinit var instance: Main
+        lateinit var instance: Econix
+        lateinit var api: EconixAPI
     }
 
     init {

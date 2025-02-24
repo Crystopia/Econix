@@ -3,12 +3,10 @@
 import dev.jorel.commandapi.executors.CommandExecutor
 import dev.jorel.commandapi.kotlindsl.commandTree
 import dev.jorel.commandapi.kotlindsl.literalArgument
-import me.jesforge.econix.Main
+import me.jesforge.econix.Econix
 import me.jesforge.econix.config.ConfigManager
 import me.jesforge.econix.database.DatabaseManager
 import net.kyori.adventure.text.minimessage.MiniMessage
-import org.bukkit.command.CommandSender
-import org.bukkit.entity.Player
 
 class EconixCommand {
     val mm = MiniMessage.miniMessage()
@@ -18,12 +16,12 @@ class EconixCommand {
         executes(CommandExecutor { sender, args ->
             sender.sendMessage(
                 mm.deserialize(
-                    "<color:#78e2ff>Econix <color:#d4ecff>v.${Main.instance.description.version}</color></color>\n<gray>Loaded Placeholder API:</gray> <color:#d4ecff>${
-                        Main.instance.server.pluginManager.getPlugin(
+                    "<color:#78e2ff>Econix <color:#d4ecff>v.${Econix.instance.description.version}</color></color>\n<gray>Loaded Placeholder API:</gray> <color:#d4ecff>${
+                        Econix.instance.server.pluginManager.getPlugin(
                             "PlaceholderAPI"
                         )!!.isEnabled
                     }</color>\n<gray>Loaded Vault:</gray> <color:#d4ecff>${
-                        Main.instance.server.pluginManager.getPlugin(
+                        Econix.instance.server.pluginManager.getPlugin(
                             "Vault"
                         )!!.isEnabled
                     }</color>\n  <gray>- Loaded Vault Currency:</gray> <color:#d4ecff>${

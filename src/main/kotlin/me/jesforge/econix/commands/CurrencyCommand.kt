@@ -2,16 +2,12 @@
 
 import dev.jorel.commandapi.executors.CommandExecutor
 import dev.jorel.commandapi.kotlindsl.*
-import gg.flyte.twilight.extension.name
-import me.jesforge.econix.Main
+import me.jesforge.econix.Econix
 import me.jesforge.econix.config.ConfigManager
 import me.jesforge.econix.functions.UserServices
 import me.jesforge.econix.utils.ErrorCodes
 import net.kyori.adventure.text.minimessage.MiniMessage
-import org.bukkit.NamespacedKey
 import org.bukkit.entity.Player
-import org.bukkit.inventory.ItemStack
-import org.bukkit.persistence.PersistentDataType
 
 class CurrencyCommand {
     val mm = MiniMessage.miniMessage()
@@ -119,7 +115,7 @@ class CurrencyCommand {
                     doubleArgument("amount") {
                         executes(CommandExecutor { sender, args ->
 
-                            Main.instance.server.onlinePlayers.forEach { player ->
+                            Econix.instance.server.onlinePlayers.forEach { player ->
                                 val req = UserServices().giveCurrency(
                                     player, args[1].toString().toDouble(), it.value.id
                                 )

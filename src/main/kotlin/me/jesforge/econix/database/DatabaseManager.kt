@@ -1,6 +1,6 @@
 ﻿package me.jesforge.econix.database
 
-import me.jesforge.econix.Main
+import me.jesforge.econix.Econix
 import me.jesforge.econix.config.ConfigManager
 import org.ktorm.database.Database
 
@@ -17,11 +17,11 @@ object DatabaseManager {
                 driver = "com.mysql.cj.jdbc.Driver",
             )
             createUsers()
-            Main.instance.logger.info("Loaded database connection")
+            Econix.instance.logger.info("Loaded database connection")
         } catch (ex: Exception) {
-            Main.instance.logger.warning(ex.toString())
-            Main.instance.logger.warning("Couldn't initialize database")
-            Main.instance.server.pluginManager.disablePlugin(Main.instance)
+            Econix.instance.logger.warning(ex.toString())
+            Econix.instance.logger.warning("Couldn't initialize database")
+            Econix.instance.server.pluginManager.disablePlugin(Econix.instance)
         }
     }
 

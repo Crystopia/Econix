@@ -1,9 +1,8 @@
 ﻿package me.jesforge.econix.functions
 
-import gg.flyte.twilight.extension.name
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import me.jesforge.econix.Main
+import me.jesforge.econix.Econix
 import me.jesforge.econix.config.ConfigManager
 import me.jesforge.econix.database.DatabaseManager
 import me.jesforge.econix.utils.ErrorCodes
@@ -138,7 +137,7 @@ class UserServices {
     }
 
     fun currencyToItem(player: Player, currency: String, amount: Double) {
-        val key = NamespacedKey(Main.instance, "econix.currency.${currency}")
+        val key = NamespacedKey(Econix.instance, "econix.currency.${currency}")
         val currencyItem =
             ItemStack(ConfigManager.currency.currencys[currency]!!.currencyItem.item)
         val currencyMetaData = currencyItem.itemMeta
