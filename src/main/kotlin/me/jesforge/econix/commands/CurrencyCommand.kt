@@ -1,5 +1,6 @@
 ﻿package me.jesforge.econix.commands
 
+import dev.jorel.commandapi.arguments.ArgumentSuggestions
 import dev.jorel.commandapi.executors.CommandExecutor
 import dev.jorel.commandapi.kotlindsl.*
 import kotlinx.serialization.json.Json
@@ -19,12 +20,17 @@ class CurrencyCommand {
         commandTree(it.value.commandName, "econix") {
             withPermission("crystopia.commands.econix.${it.value.commandName}")
             literalArgument("give") {
-                playerArgument("player") {
+                stringArgument("player") {
+                    replaceSuggestions(
+                        ArgumentSuggestions.strings {
+                            Econix.instance.server.offlinePlayers.map { it.name }.toTypedArray()
+                        })
                     doubleArgument("amount") {
                         executes(CommandExecutor { sender, args ->
+                            val player = Econix.instance.server.getOfflinePlayer(args[0].toString())
 
                             val req = UserServices().giveCurrency(
-                                (args[0] as Player).uniqueId.toString(), args[1].toString().toDouble(), it.value.id
+                                player.uniqueId.toString(), args[1].toString().toDouble(), it.value.id
                             )
 
                             if (req == ErrorCodes.ERROR) {
@@ -33,10 +39,10 @@ class CurrencyCommand {
                                 sender.sendMessage(
                                     mm.deserialize(
                                         "<color:#9effa1>You have added <gray>${
-                                            args[1].toString().toDouble()
-                                        } ${
-                                            it.value.symbol.ifEmpty { it.value.name }
-                                        }</gray> to <b>${(args[0] as Player).name}</b>.</color>"))
+                                    args[1].toString().toDouble()
+                                } ${
+                                    it.value.symbol.ifEmpty { it.value.name }
+                                }</gray> to <b>${(args[0] as Player).name}</b>.</color>"))
                             } else if (req == ErrorCodes.DATABASE_ERROR) {
                                 sender.sendMessage(mm.deserialize("<color:#ff5d3d>An error has occurred with the database</color>"))
                             } else if (req == ErrorCodes.NO_CURRENCY) {
@@ -49,12 +55,17 @@ class CurrencyCommand {
                 }
             }
             literalArgument("remove") {
-                playerArgument("player") {
+                stringArgument("player") {
+                    replaceSuggestions(
+                        ArgumentSuggestions.strings {
+                            Econix.instance.server.offlinePlayers.map { it.name }.toTypedArray()
+                        })
                     doubleArgument("amount") {
                         executes(CommandExecutor { sender, args ->
+                            val player = Econix.instance.server.getOfflinePlayer(args[0].toString())
 
                             val req = UserServices().removeCurrency(
-                                (args[0] as Player).uniqueId.toString(), args[1].toString().toDouble(), it.value.id
+                                player.uniqueId.toString(), args[1].toString().toDouble(), it.value.id
                             )
 
                             if (req == ErrorCodes.ERROR) {
@@ -63,14 +74,14 @@ class CurrencyCommand {
                                 sender.sendMessage(
                                     mm.deserialize(
                                         "<color:#9effa1>You have removed <gray>${
-                                            args[1].toString().toDouble()
-                                        } ${
-                                            it.value.symbol.ifEmpty { it.value.name }
-                                        }</gray> from <b>${(args[0] as Player).name}'s account</b>. <gray>(now ${
-                                            UserServices().getCurrency(
-                                                (args[0] as Player).uniqueId.toString(), it.value.id
-                                            )
-                                        } ${it.value.symbol})</color>"))
+                                    args[1].toString().toDouble()
+                                } ${
+                                    it.value.symbol.ifEmpty { it.value.name }
+                                }</gray> from <b>${(args[0] as Player).name}'s account</b>. <gray>(now ${
+                                    UserServices().getCurrency(
+                                        (args[0] as Player).uniqueId.toString(), it.value.id
+                                    )
+                                } ${it.value.symbol})</color>"))
                             } else if (req == ErrorCodes.DATABASE_ERROR) {
                                 sender.sendMessage(mm.deserialize("<color:#ff5d3d>An error has occurred with the database</color>"))
                             } else if (req == ErrorCodes.NO_CURRENCY) {
@@ -83,12 +94,17 @@ class CurrencyCommand {
                 }
             }
             literalArgument("set") {
-                playerArgument("player") {
+                stringArgument("player") {
+                    replaceSuggestions(
+                        ArgumentSuggestions.strings {
+                            Econix.instance.server.offlinePlayers.map { it.name }.toTypedArray()
+                        })
                     doubleArgument("amount") {
                         executes(CommandExecutor { sender, args ->
+                            val player = Econix.instance.server.getOfflinePlayer(args[0].toString())
 
                             val req = UserServices().setCurrency(
-                                (args[0] as Player).uniqueId.toString(), args[1].toString().toDouble(), it.value.id
+                                player.uniqueId.toString(), args[1].toString().toDouble(), it.value.id
                             )
 
                             if (req == ErrorCodes.ERROR) {
@@ -96,11 +112,11 @@ class CurrencyCommand {
                             } else if (req == ErrorCodes.SUCCESS) {
                                 sender.sendMessage(
                                     mm.deserialize(
-                                        "<color:#9effa1>You have set <gray>${
-                                            args[1].toString().toDouble()
-                                        } ${
-                                            it.value.symbol.ifEmpty { it.value.name }
-                                        }</gray> to <b>${(args[0] as Player).name}'s</b> account.</color>"))
+                                    "<color:#9effa1>You have set <gray>${
+                                    args[1].toString().toDouble()
+                                } ${
+                                    it.value.symbol.ifEmpty { it.value.name }
+                                }</gray> to <b>${(args[0] as Player).name}'s</b> account.</color>"))
                             } else if (req == ErrorCodes.DATABASE_ERROR) {
                                 sender.sendMessage(mm.deserialize("<color:#ff5d3d>An error has occurred with the database</color>"))
                             } else if (req == ErrorCodes.NO_CURRENCY) {
@@ -113,38 +129,36 @@ class CurrencyCommand {
                 }
             }
             literalArgument("giveall") {
-                playerArgument("player") {
-                    doubleArgument("amount") {
-                        executes(CommandExecutor { sender, args ->
+                doubleArgument("amount") {
+                    executes(CommandExecutor { sender, args ->
 
-                            Econix.instance.server.onlinePlayers.forEach { player ->
-                                val req = UserServices().giveCurrency(
-                                    player.uniqueId.toString(), args[1].toString().toDouble(), it.value.id
-                                )
+                        Econix.instance.server.onlinePlayers.forEach { player ->
+                            val req = UserServices().giveCurrency(
+                                player.uniqueId.toString(), args[1].toString().toDouble(), it.value.id
+                            )
 
-                                if (req == ErrorCodes.ERROR) {
-                                    sender.sendMessage(mm.deserialize("<color:#ff5d3d>There was a problem with the process</color>"))
-                                } else if (req == ErrorCodes.SUCCESS) {
-                                    sender.sendMessage(
-                                        mm.deserialize(
-                                            "<color:#9effa1>You have added <gray>${
-                                                args[1].toString().toDouble()
-                                            } ${
-                                                it.value.symbol.ifEmpty { it.value.name }
-                                            }</gray> to <b>${(args[0] as Player).name}</b>.</color>"))
-                                } else if (req == ErrorCodes.DATABASE_ERROR) {
-                                    sender.sendMessage(mm.deserialize("<color:#ff5d3d>An error has occurred with the database</color>"))
-                                } else if (req == ErrorCodes.NO_CURRENCY) {
-                                    sender.sendMessage(mm.deserialize("The currency <b>${it.value.id}</b> was not found!"))
-                                } else if (req == ErrorCodes.NO_USER) {
-                                    sender.sendMessage(mm.deserialize("The player <b>${(args[0] as Player).name}</b> was not found!"))
-                                }
+                            if (req == ErrorCodes.ERROR) {
+                                sender.sendMessage(mm.deserialize("<color:#ff5d3d>There was a problem with the process</color>"))
+                            } else if (req == ErrorCodes.SUCCESS) {
+                                sender.sendMessage(
+                                    mm.deserialize(
+                                        "<color:#9effa1>You have added <gray>${
+                                    args[1].toString().toDouble()
+                                } ${
+                                    it.value.symbol.ifEmpty { it.value.name }
+                                }</gray> to <b>${(args[0] as Player).name}</b>.</color>"))
+                            } else if (req == ErrorCodes.DATABASE_ERROR) {
+                                sender.sendMessage(mm.deserialize("<color:#ff5d3d>An error has occurred with the database</color>"))
+                            } else if (req == ErrorCodes.NO_CURRENCY) {
+                                sender.sendMessage(mm.deserialize("The currency <b>${it.value.id}</b> was not found!"))
+                            } else if (req == ErrorCodes.NO_USER) {
+                                sender.sendMessage(mm.deserialize("The player <b>${(args[0] as Player).name}</b> was not found!"))
                             }
+                        }
 
-                            sender.sendMessage(mm.deserialize("<gray>Added all online players the correct amount!</gray>"))
+                        sender.sendMessage(mm.deserialize("<gray>Added all online players the correct amount!</gray>"))
 
-                        })
-                    }
+                    })
                 }
             }
             literalArgument("item") {
@@ -165,14 +179,14 @@ class CurrencyCommand {
                                 sender.sendMessage(
                                     mm.deserialize(
                                         "<color:#9effa1>You have removed <gray>${
-                                            args[1].toString().toDouble()
-                                        } ${
-                                            it.value.symbol.ifEmpty { it.value.name }
-                                        }</gray> from <b>${(args[0] as Player).name}'s account</b>. <gray>(now ${
-                                            UserServices().getCurrency(
-                                                (args[0] as Player).toString(), it.value.id
-                                            )
-                                        } ${it.value.symbol})</color>"))
+                                    args[1].toString().toDouble()
+                                } ${
+                                    it.value.symbol.ifEmpty { it.value.name }
+                                }</gray> from <b>${(args[0] as Player).name}'s account</b>. <gray>(now ${
+                                    UserServices().getCurrency(
+                                        (args[0] as Player).toString(), it.value.id
+                                    )
+                                } ${it.value.symbol})</color>"))
 
                                 UserServices().currencyToItem(
                                     currency = it.value.id,
@@ -193,10 +207,16 @@ class CurrencyCommand {
                 }
             }
             literalArgument("balance") {
-                playerArgument("player") {
+                stringArgument("player") {
+                    replaceSuggestions(
+                        ArgumentSuggestions.strings {
+                            Econix.instance.server.offlinePlayers.map { it.name }.toTypedArray()
+                        })
                     executes(CommandExecutor { sender, args ->
+                        val player = Econix.instance.server.getOfflinePlayer(args[0].toString())
+
                         val req = UserServices().getCurrency(
-                            (args[0] as Player).uniqueId.toString(), it.value.id
+                            player.uniqueId.toString(), it.value.id
                         )
 
                         sender.sendMessage(
@@ -205,11 +225,8 @@ class CurrencyCommand {
                             )
                         )
                     })
-
                 }
             }
         }
     }
-
-
 }
