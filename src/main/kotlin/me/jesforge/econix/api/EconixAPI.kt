@@ -2,19 +2,20 @@
 
 import me.jesforge.econix.data.Currency
 import me.jesforge.econix.utils.ErrorCodes
+import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
 
 interface EconixAPI {
 
     fun getVersion(): String
 
-    fun getBalance(player: Player, currency: String): Double
+    fun getBalance(player: OfflinePlayer, currency: String): Double
 
-    fun setBalance(player: Player, currency: String, value: Double): ErrorCodes
+    fun setBalance(player: OfflinePlayer, currency: String, value: Double): ErrorCodes
 
-    fun addBalance(player: Player, currency: String, value: Double): ErrorCodes
+    fun addBalance(player: OfflinePlayer, currency: String, value: Double): ErrorCodes
 
-    fun removeBalance(player: Player, currency: String, value: Double): ErrorCodes
+    fun removeBalance(player: OfflinePlayer, currency: String, value: Double): ErrorCodes
 
     fun registerBalance(currency: Currency, currencyId: String)
 

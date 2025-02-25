@@ -5,6 +5,7 @@ import me.jesforge.econix.data.Currency
 import me.jesforge.econix.functions.CurrencyServices
 import me.jesforge.econix.functions.UserServices
 import me.jesforge.econix.utils.ErrorCodes
+import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
 
 class EconixAPIImpl : EconixAPI {
@@ -13,19 +14,19 @@ class EconixAPIImpl : EconixAPI {
         return Econix.instance.description.version
     }
 
-    override fun getBalance(player: Player, currency: String): Double {
+    override fun getBalance(player: OfflinePlayer, currency: String): Double {
         return UserServices().getCurrency(player, currency)
     }
 
-    override fun setBalance(player: Player, currency: String, value: Double): ErrorCodes {
+    override fun setBalance(player: OfflinePlayer, currency: String, value: Double): ErrorCodes {
         return UserServices().setCurrency(player, value, currency)
     }
 
-    override fun addBalance(player: Player, currency: String, value: Double): ErrorCodes {
+    override fun addBalance(player: OfflinePlayer, currency: String, value: Double): ErrorCodes {
         return UserServices().giveCurrency(player, value, currency)
     }
 
-    override fun removeBalance(player: Player, currency: String, value: Double): ErrorCodes {
+    override fun removeBalance(player: OfflinePlayer, currency: String, value: Double): ErrorCodes {
         return UserServices().removeCurrency(player, value, currency)
     }
 
