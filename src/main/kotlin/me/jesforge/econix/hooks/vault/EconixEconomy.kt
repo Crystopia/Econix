@@ -6,6 +6,7 @@ import me.jesforge.econix.functions.UserServices
 import me.jesforge.econix.utils.ErrorCodes
 import net.milkbowl.vault.economy.AbstractEconomy
 import net.milkbowl.vault.economy.EconomyResponse
+import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
 import java.util.*
 
@@ -16,8 +17,8 @@ class EconixEconomy(currency: String) : AbstractEconomy() {
     private var currencyConfig = ConfigManager.currency.currencys[currency]
 
 
-    private fun getPlayer(uuid: String): Player? {
-        return Econix.instance.server.getPlayer(UUID.fromString(uuid))
+    private fun getPlayer(uuid: String): OfflinePlayer {
+        return Econix.instance.server.getOfflinePlayer(UUID.fromString(uuid))
     }
 
     override fun isEnabled(): Boolean {

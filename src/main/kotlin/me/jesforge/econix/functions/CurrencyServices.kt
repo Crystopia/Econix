@@ -147,7 +147,6 @@ class CurrencyServices {
         }
     }
 
-
     private fun getPlayerNameByUuid(uuid: String): String {
         return uuid
     }

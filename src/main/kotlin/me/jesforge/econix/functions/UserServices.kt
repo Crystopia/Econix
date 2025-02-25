@@ -9,6 +9,7 @@ import me.jesforge.econix.utils.ErrorCodes
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.NamespacedKey
+import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
@@ -35,12 +36,12 @@ class UserServices {
             }
         } catch (e: Exception) {
             println("Database Error:$e")
-            return false // Gibt false zurück, wenn ein Fehler auftritt
+            return false
         }
     }
 
 
-    fun giveCurrency(player: Player, amount: Double, currency: String): ErrorCodes {
+    fun giveCurrency(player: OfflinePlayer, amount: Double, currency: String): ErrorCodes {
         try {
             DatabaseManager.database!!.useConnection { connection ->
                 val insertQuery = connection.prepareStatement(
@@ -73,7 +74,7 @@ class UserServices {
         }
     }
 
-    fun setCurrency(player: Player, amount: Double, currency: String): ErrorCodes {
+    fun setCurrency(player: OfflinePlayer, amount: Double, currency: String): ErrorCodes {
         try {
             DatabaseManager.database!!.useConnection { connection ->
                 val insertQuery = connection.prepareStatement(
@@ -106,7 +107,7 @@ class UserServices {
         }
     }
 
-    fun removeCurrency(player: Player, amount: Double, currency: String): ErrorCodes {
+    fun removeCurrency(player: OfflinePlayer, amount: Double, currency: String): ErrorCodes {
         try {
             DatabaseManager.database!!.useConnection { connection ->
                 val insertQuery = connection.prepareStatement(
@@ -139,7 +140,7 @@ class UserServices {
         }
     }
 
-    fun getCurrency(player: Player, currency: String): Double {
+    fun getCurrency(player: OfflinePlayer, currency: String): Double {
         try {
             DatabaseManager.database!!.useConnection { connection ->
 
