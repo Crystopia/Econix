@@ -29,7 +29,7 @@ class PlaceholderAPIHook : PlaceholderExpansion() {
             if (split.size >= 3) {
                 val currency = split.last()
                 val type = split.drop(1).dropLast(1).joinToString("_")
-                val balance = player?.player?.let { UserServices().getCurrency(it, currency) } ?: 0.0
+                val balance = UserServices().getCurrency(player!!.uniqueId.toString(), currency)
                 val currencyData = ConfigManager.currency.currencys[currency]
                 val symbol = currencyData?.symbol ?: currencyData?.name ?: ""
                 return when (type) {
@@ -48,7 +48,7 @@ class PlaceholderAPIHook : PlaceholderExpansion() {
             if (split.size >= 4) {
                 val currency = split[2]
                 val type = split.drop(1).dropLast(1).joinToString("_")
-                val balance = player?.player?.let { UserServices().getCurrency(it, currency) } ?: 0.0
+                val balance = UserServices().getCurrency(player!!.uniqueId.toString(), currency)
                 val currencyData = ConfigManager.currency.currencys[currency]
                 val symbol = currencyData?.symbol ?: currencyData?.name ?: ""
 

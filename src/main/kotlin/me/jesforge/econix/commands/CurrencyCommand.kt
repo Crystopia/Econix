@@ -24,7 +24,7 @@ class CurrencyCommand {
                         executes(CommandExecutor { sender, args ->
 
                             val req = UserServices().giveCurrency(
-                                args[0] as Player, args[1].toString().toDouble(), it.value.id
+                                (args[0] as Player).uniqueId.toString(), args[1].toString().toDouble(), it.value.id
                             )
 
                             if (req == ErrorCodes.ERROR) {
@@ -32,11 +32,11 @@ class CurrencyCommand {
                             } else if (req == ErrorCodes.SUCCESS) {
                                 sender.sendMessage(
                                     mm.deserialize(
-                                    "<color:#9effa1>You have added <gray>${
-                                    args[1].toString().toDouble()
-                                } ${
-                                    it.value.symbol.ifEmpty { it.value.name }
-                                }</gray> to <b>${(args[0] as Player).name}</b>.</color>"))
+                                        "<color:#9effa1>You have added <gray>${
+                                            args[1].toString().toDouble()
+                                        } ${
+                                            it.value.symbol.ifEmpty { it.value.name }
+                                        }</gray> to <b>${(args[0] as Player).name}</b>.</color>"))
                             } else if (req == ErrorCodes.DATABASE_ERROR) {
                                 sender.sendMessage(mm.deserialize("<color:#ff5d3d>An error has occurred with the database</color>"))
                             } else if (req == ErrorCodes.NO_CURRENCY) {
@@ -54,7 +54,7 @@ class CurrencyCommand {
                         executes(CommandExecutor { sender, args ->
 
                             val req = UserServices().removeCurrency(
-                                args[0] as Player, args[1].toString().toDouble(), it.value.id
+                                (args[0] as Player).uniqueId.toString(), args[1].toString().toDouble(), it.value.id
                             )
 
                             if (req == ErrorCodes.ERROR) {
@@ -62,15 +62,15 @@ class CurrencyCommand {
                             } else if (req == ErrorCodes.SUCCESS) {
                                 sender.sendMessage(
                                     mm.deserialize(
-                                    "<color:#9effa1>You have removed <gray>${
-                                    args[1].toString().toDouble()
-                                } ${
-                                    it.value.symbol.ifEmpty { it.value.name }
-                                }</gray> from <b>${(args[0] as Player).name}'s account</b>. <gray>(now ${
-                                    UserServices().getCurrency(
-                                        args[0] as Player, it.value.id
-                                    )
-                                } ${it.value.symbol})</color>"))
+                                        "<color:#9effa1>You have removed <gray>${
+                                            args[1].toString().toDouble()
+                                        } ${
+                                            it.value.symbol.ifEmpty { it.value.name }
+                                        }</gray> from <b>${(args[0] as Player).name}'s account</b>. <gray>(now ${
+                                            UserServices().getCurrency(
+                                                (args[0] as Player).uniqueId.toString(), it.value.id
+                                            )
+                                        } ${it.value.symbol})</color>"))
                             } else if (req == ErrorCodes.DATABASE_ERROR) {
                                 sender.sendMessage(mm.deserialize("<color:#ff5d3d>An error has occurred with the database</color>"))
                             } else if (req == ErrorCodes.NO_CURRENCY) {
@@ -88,7 +88,7 @@ class CurrencyCommand {
                         executes(CommandExecutor { sender, args ->
 
                             val req = UserServices().setCurrency(
-                                args[0] as Player, args[1].toString().toDouble(), it.value.id
+                                (args[0] as Player).uniqueId.toString(), args[1].toString().toDouble(), it.value.id
                             )
 
                             if (req == ErrorCodes.ERROR) {
@@ -97,10 +97,10 @@ class CurrencyCommand {
                                 sender.sendMessage(
                                     mm.deserialize(
                                         "<color:#9effa1>You have set <gray>${
-                                    args[1].toString().toDouble()
-                                } ${
-                                    it.value.symbol.ifEmpty { it.value.name }
-                                }</gray> to <b>${(args[0] as Player).name}'s</b> account.</color>"))
+                                            args[1].toString().toDouble()
+                                        } ${
+                                            it.value.symbol.ifEmpty { it.value.name }
+                                        }</gray> to <b>${(args[0] as Player).name}'s</b> account.</color>"))
                             } else if (req == ErrorCodes.DATABASE_ERROR) {
                                 sender.sendMessage(mm.deserialize("<color:#ff5d3d>An error has occurred with the database</color>"))
                             } else if (req == ErrorCodes.NO_CURRENCY) {
@@ -119,7 +119,7 @@ class CurrencyCommand {
 
                             Econix.instance.server.onlinePlayers.forEach { player ->
                                 val req = UserServices().giveCurrency(
-                                    player, args[1].toString().toDouble(), it.value.id
+                                    player.uniqueId.toString(), args[1].toString().toDouble(), it.value.id
                                 )
 
                                 if (req == ErrorCodes.ERROR) {
@@ -127,11 +127,11 @@ class CurrencyCommand {
                                 } else if (req == ErrorCodes.SUCCESS) {
                                     sender.sendMessage(
                                         mm.deserialize(
-                                        "<color:#9effa1>You have added <gray>${
-                                        args[1].toString().toDouble()
-                                    } ${
-                                        it.value.symbol.ifEmpty { it.value.name }
-                                    }</gray> to <b>${(args[0] as Player).name}</b>.</color>"))
+                                            "<color:#9effa1>You have added <gray>${
+                                                args[1].toString().toDouble()
+                                            } ${
+                                                it.value.symbol.ifEmpty { it.value.name }
+                                            }</gray> to <b>${(args[0] as Player).name}</b>.</color>"))
                                 } else if (req == ErrorCodes.DATABASE_ERROR) {
                                     sender.sendMessage(mm.deserialize("<color:#ff5d3d>An error has occurred with the database</color>"))
                                 } else if (req == ErrorCodes.NO_CURRENCY) {
@@ -153,7 +153,7 @@ class CurrencyCommand {
                         executes(CommandExecutor { sender, args ->
 
                             val req = UserServices().removeCurrency(
-                                args[0] as Player, args[1].toString().toDouble(), it.value.id
+                                (args[0] as Player).uniqueId.toString(), args[1].toString().toDouble(), it.value.id
                             )
 
                             if (req == ErrorCodes.ERROR) {
@@ -164,15 +164,15 @@ class CurrencyCommand {
                             } else if (req == ErrorCodes.SUCCESS) {
                                 sender.sendMessage(
                                     mm.deserialize(
-                                    "<color:#9effa1>You have removed <gray>${
-                                    args[1].toString().toDouble()
-                                } ${
-                                    it.value.symbol.ifEmpty { it.value.name }
-                                }</gray> from <b>${(args[0] as Player).name}'s account</b>. <gray>(now ${
-                                    UserServices().getCurrency(
-                                        args[0] as Player, it.value.id
-                                    )
-                                } ${it.value.symbol})</color>"))
+                                        "<color:#9effa1>You have removed <gray>${
+                                            args[1].toString().toDouble()
+                                        } ${
+                                            it.value.symbol.ifEmpty { it.value.name }
+                                        }</gray> from <b>${(args[0] as Player).name}'s account</b>. <gray>(now ${
+                                            UserServices().getCurrency(
+                                                (args[0] as Player).toString(), it.value.id
+                                            )
+                                        } ${it.value.symbol})</color>"))
 
                                 UserServices().currencyToItem(
                                     currency = it.value.id,
@@ -196,7 +196,7 @@ class CurrencyCommand {
                 playerArgument("player") {
                     executes(CommandExecutor { sender, args ->
                         val req = UserServices().getCurrency(
-                            args[0] as Player, it.value.id
+                            (args[0] as Player).uniqueId.toString(), it.value.id
                         )
 
                         sender.sendMessage(
@@ -210,8 +210,6 @@ class CurrencyCommand {
             }
         }
     }
-
-
 
 
 }
