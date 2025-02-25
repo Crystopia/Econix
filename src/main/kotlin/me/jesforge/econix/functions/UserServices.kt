@@ -41,13 +41,13 @@ class UserServices {
     }
 
 
-    fun giveCurrency(player: OfflinePlayer, amount: Double, currency: String): ErrorCodes {
+    fun giveCurrency(uuid: String, amount: Double, currency: String): ErrorCodes {
         try {
             DatabaseManager.database!!.useConnection { connection ->
                 val insertQuery = connection.prepareStatement(
                     "SELECT currencys FROM users WHERE uuid = ?"
                 )
-                insertQuery.setString(1, player.uniqueId.toString())
+                insertQuery.setString(1, uuid)
                 val resultSet = insertQuery.executeQuery()
 
                 if (resultSet.next()) {
@@ -63,7 +63,7 @@ class UserServices {
                     )
 
                     updateQuery.setString(1, Json.encodeToString(existingCurrencies))
-                    updateQuery.setString(2, player.uniqueId.toString())
+                    updateQuery.setString(2, uuid)
                     updateQuery.executeUpdate()
                     return ErrorCodes.SUCCESS
                 } else return ErrorCodes.ERROR
@@ -74,13 +74,13 @@ class UserServices {
         }
     }
 
-    fun setCurrency(player: OfflinePlayer, amount: Double, currency: String): ErrorCodes {
+    fun setCurrency(uuid: String, amount: Double, currency: String): ErrorCodes {
         try {
             DatabaseManager.database!!.useConnection { connection ->
                 val insertQuery = connection.prepareStatement(
                     "SELECT currencys FROM users WHERE uuid = ?"
                 )
-                insertQuery.setString(1, player.uniqueId.toString())
+                insertQuery.setString(1, uuid)
                 val resultSet = insertQuery.executeQuery()
 
                 if (resultSet.next()) {
@@ -96,7 +96,7 @@ class UserServices {
                     )
 
                     updateQuery.setString(1, Json.encodeToString(existingCurrencies))
-                    updateQuery.setString(2, player.uniqueId.toString())
+                    updateQuery.setString(2, uuid)
                     updateQuery.executeUpdate()
                     return ErrorCodes.SUCCESS
                 } else return ErrorCodes.ERROR
@@ -107,13 +107,13 @@ class UserServices {
         }
     }
 
-    fun removeCurrency(player: OfflinePlayer, amount: Double, currency: String): ErrorCodes {
+    fun removeCurrency(uuid: String, amount: Double, currency: String): ErrorCodes {
         try {
             DatabaseManager.database!!.useConnection { connection ->
                 val insertQuery = connection.prepareStatement(
                     "SELECT currencys FROM users WHERE uuid = ?"
                 )
-                insertQuery.setString(1, player.uniqueId.toString())
+                insertQuery.setString(1, uuid)
                 val resultSet = insertQuery.executeQuery()
 
                 if (resultSet.next()) {
@@ -129,7 +129,7 @@ class UserServices {
                     )
 
                     updateQuery.setString(1, Json.encodeToString(existingCurrencies))
-                    updateQuery.setString(2, player.uniqueId.toString())
+                    updateQuery.setString(2, uuid)
                     updateQuery.executeUpdate()
                     return ErrorCodes.SUCCESS
                 } else return ErrorCodes.ERROR
@@ -140,14 +140,14 @@ class UserServices {
         }
     }
 
-    fun getCurrency(player: OfflinePlayer, currency: String): Double {
+    fun getCurrency(uuid: String, currency: String): Double {
         try {
             DatabaseManager.database!!.useConnection { connection ->
 
                 val insertQuery = connection.prepareStatement(
                     "SELECT currencys FROM users WHERE uuid = ?"
                 )
-                insertQuery.setString(1, player.uniqueId.toString())
+                insertQuery.setString(1, uuid)
                 val resultSet = insertQuery.executeQuery()
 
                 if (resultSet.next()) {

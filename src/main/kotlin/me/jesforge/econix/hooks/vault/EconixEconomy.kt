@@ -57,20 +57,16 @@ class EconixEconomy(currency: String) : AbstractEconomy() {
         TODO("Use the other method!")
     }
 
-    override fun getBalance(uuid: String?): Double {
-        return uuid?.let { getPlayer(it)?.let { UserServices().getCurrency(it, currency) } }!!
+    override fun getBalance(uuid: String): Double {
+        return UserServices().getCurrency(uuid, currency)
     }
 
-    override fun getBalance(uuid: String?, currency: String): Double {
-        return if (uuid != null) {
-            getPlayer(uuid)?.let { UserServices().getCurrency(it, currency) } ?: 0.0
-        } else {
-            0.0
-        }
+    override fun getBalance(uuid: String, currency: String): Double {
+        return UserServices().getCurrency(uuid, currency)
     }
 
-    override fun has(uuid: String?, amount: Double): Boolean {
-        val playersBalance = uuid?.let { getPlayer(it)?.let { UserServices().getCurrency(it, currency) } } ?: 0.0
+    override fun has(uuid: String, amount: Double): Boolean {
+        val playersBalance = UserServices().getCurrency(uuid, currency)
         return playersBalance >= amount
     }
 
@@ -78,38 +74,38 @@ class EconixEconomy(currency: String) : AbstractEconomy() {
         return uuid?.let {
             getPlayer(it)?.let {
                 UserServices().getCurrency(
-                    it, currency
+                    uuid, currency
                 )
             }
         }!! >= amount
     }
 
-    override fun withdrawPlayer(uuid: String?, amount: Double): EconomyResponse {
-        val result = uuid?.let { getPlayer(it)?.let { UserServices().removeCurrency(it, amount, currency) } }
+    override fun withdrawPlayer(uuid: String, amount: Double): EconomyResponse {
+        val result = UserServices().removeCurrency(uuid, amount, currency)
         return if (result == ErrorCodes.SUCCESS) EconomyResponse(
             amount, 0.0, EconomyResponse.ResponseType.SUCCESS, "Success"
         )
         else EconomyResponse(0.0, 0.0, EconomyResponse.ResponseType.FAILURE, "Failed to withdraw")
     }
 
-    override fun withdrawPlayer(uuid: String?, currency: String, amount: Double): EconomyResponse {
-        val result = uuid?.let { it -> getPlayer(it)?.let { UserServices().removeCurrency(it, amount, currency) } }
+    override fun withdrawPlayer(uuid: String, currency: String, amount: Double): EconomyResponse {
+        val result = UserServices().removeCurrency(uuid, amount, currency)
         return if (result == ErrorCodes.SUCCESS) EconomyResponse(
             amount, 0.0, EconomyResponse.ResponseType.SUCCESS, "Success"
         )
         else EconomyResponse(0.0, 0.0, EconomyResponse.ResponseType.FAILURE, "Failed to withdraw")
     }
 
-    override fun depositPlayer(uuid: String?, amount: Double): EconomyResponse {
-        val result = uuid?.let { getPlayer(it)?.let { UserServices().giveCurrency(it, amount, currency) } }
+    override fun depositPlayer(uuid: String, amount: Double): EconomyResponse {
+        val result = UserServices().giveCurrency(uuid, amount, currency)
         return if (result == ErrorCodes.SUCCESS) EconomyResponse(
             amount, 0.0, EconomyResponse.ResponseType.SUCCESS, "Success"
         )
         else EconomyResponse(0.0, 0.0, EconomyResponse.ResponseType.FAILURE, "Failed to deposit")
     }
 
-    override fun depositPlayer(uuid: String?, currency: String, amount: Double): EconomyResponse {
-        val result = uuid?.let { getPlayer(it)?.let { UserServices().giveCurrency(it, amount, currency) } }
+    override fun depositPlayer(uuid: String, currency: String, amount: Double): EconomyResponse {
+        val result = UserServices().giveCurrency(uuid, amount, currency)
         return if (result == ErrorCodes.SUCCESS) EconomyResponse(
             amount, 0.0, EconomyResponse.ResponseType.SUCCESS, "Success"
         )

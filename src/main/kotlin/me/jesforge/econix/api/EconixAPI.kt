@@ -9,13 +9,13 @@ interface EconixAPI {
 
     fun getVersion(): String
 
-    fun getBalance(player: OfflinePlayer, currency: String): Double
+    fun getBalance(uuid: String, currency: String): Double
 
-    fun setBalance(player: OfflinePlayer, currency: String, value: Double): ErrorCodes
+    fun setBalance(uuid: String, currency: String, value: Double): ErrorCodes
 
-    fun addBalance(player: OfflinePlayer, currency: String, value: Double): ErrorCodes
+    fun addBalance(uuid: String, currency: String, value: Double): ErrorCodes
 
-    fun removeBalance(player: OfflinePlayer, currency: String, value: Double): ErrorCodes
+    fun removeBalance(uuid: String, currency: String, value: Double): ErrorCodes
 
     fun registerBalance(currency: Currency, currencyId: String)
 
