@@ -15,6 +15,31 @@ import org.bukkit.persistence.PersistentDataType
 
 class UserServices {
 
+    fun getPlayerAccount(uuid: String): Boolean {
+        try {
+            DatabaseManager.database!!.useConnection { connection ->
+                val query = connection.prepareStatement(
+                    "SELECT currencys FROM users WHERE uuid = ?"
+                )
+                query.setString(1, uuid)
+                val resultSet = query.executeQuery()
+
+                return if (resultSet.next()) {
+                    val existingCurrencies =
+                        Json.decodeFromString<MutableMap<String, Double>>(resultSet.getString("currencys"))
+
+                    existingCurrencies.isNotEmpty()
+                } else {
+                    false
+                }
+            }
+        } catch (e: Exception) {
+            println("Database Error:$e")
+            return false // Gibt false zurück, wenn ein Fehler auftritt
+        }
+    }
+
+
     fun giveCurrency(player: Player, amount: Double, currency: String): ErrorCodes {
         try {
             DatabaseManager.database!!.useConnection { connection ->
@@ -139,16 +164,13 @@ class UserServices {
 
     fun currencyToItem(player: Player, currency: String, amount: Double) {
         val key = NamespacedKey(Econix.instance, "econix.currency.${currency}")
-        val currencyItem =
-            ItemStack(ConfigManager.currency.currencys[currency]!!.currencyItem.item)
+        val currencyItem = ItemStack(ConfigManager.currency.currencys[currency]!!.currencyItem.item)
         val currencyMetaData = currencyItem.itemMeta
-        val displayName: Component =
-            MiniMessage.miniMessage().deserialize(
-                ConfigManager.currency.currencys[currency]!!.currencyItem.name.replace(
-                    "{amount}",
-                    amount.toString()
-                ).replace("{currency}", currency)
-            )
+        val displayName: Component = MiniMessage.miniMessage().deserialize(
+            ConfigManager.currency.currencys[currency]!!.currencyItem.name.replace(
+                "{amount}", amount.toString()
+            ).replace("{currency}", currency)
+        )
         currencyMetaData.displayName(displayName)
         currencyMetaData.setCustomModelData(ConfigManager.currency.currencys[currency]!!.currencyItem.customModeData)
         currencyMetaData.persistentDataContainer.set(
@@ -163,4 +185,6 @@ class UserServices {
 
         player.inventory.addItem(currencyItem)
     }
+
+
 }

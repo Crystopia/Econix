@@ -7,6 +7,7 @@ import me.jesforge.econix.config.ConfigManager
 import me.jesforge.econix.data.Currency
 import me.jesforge.econix.database.DatabaseManager
 import org.bukkit.entity.Player
+import java.util.UUID
 
 class CurrencyServices {
 
@@ -71,5 +72,85 @@ class CurrencyServices {
             updatePlayerCurrencies(player)
         }
     }
+
+    fun getTopFromCurrency(currency: String, limit: Int): List<Pair<String, Double>> {
+        try {
+            DatabaseManager.database!!.useConnection { connection ->
+                val selectQuery = connection.prepareStatement(
+                    "SELECT uuid, currencys FROM users"
+                )
+                val resultSet = selectQuery.executeQuery()
+                val playersList = mutableListOf<Pair<String, Double>>()
+
+                while (resultSet.next()) {
+                    val playerUuid = resultSet.getString("uuid")
+                    val existingCurrencies =
+                        Json.decodeFromString<MutableMap<String, Double>>(resultSet.getString("currencys"))
+
+                    if (existingCurrencies.containsKey(currency)) {
+                        playersList.add(playerUuid to (existingCurrencies[currency] ?: 0.0))
+                    }
+                }
+                return playersList.sortedByDescending { it.second }.take(limit)
+            }
+        } catch (e: Exception) {
+            println("Database Error:$e")
+            return emptyList()
+        }
+    }
+
+
+    fun getTopPlayerName(currency: String, position: Int): String {
+
+        val topPlayers = CurrencyServices().getTopFromCurrency(currency, 10)
+        return if (position in 1..topPlayers.size) {
+            Econix.instance.server.getPlayer(UUID.fromString(topPlayers[position - 1].first))!!.name
+        } else {
+            "No Player"
+        }
+    }
+
+    fun getTopBalance(currency: String, position: Int): Double {
+
+        val topPlayers = CurrencyServices().getTopFromCurrency(currency, 10)
+        return if (position in 1..topPlayers.size) {
+            topPlayers[position - 1].second
+        } else {
+            0.0
+        }
+    }
+
+    fun getTopBalancePlain(currency: String, position: Int): String {
+
+        val balance = getTopBalance(currency, position)
+        return balance.toString()
+    }
+
+
+    fun getTopBalanceShort(currency: String, position: Int): String {
+
+        val balance = getTopBalance(currency, position)
+        return formatShort(balance)
+    }
+
+    fun getTopBalanceShortPlain(currency: String, position: Int): String {
+
+        val balance = getTopBalance(currency, position)
+        return formatShort(balance)
+    }
+
+    private fun formatShort(balance: Double): String {
+        return when {
+            balance >= 1_000_000 -> "%.1fM".format(balance / 1_000_000)
+            balance >= 1_000 -> "%.1fk".format(balance / 1_000)
+            else -> balance.toString()
+        }
+    }
+
+
+    private fun getPlayerNameByUuid(uuid: String): String {
+        return uuid
+    }
+
 
 }

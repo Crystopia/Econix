@@ -36,14 +36,14 @@ class EconixCommand {
         })
         literalArgument("reload") {
             executes(CommandExecutor { sender, args ->
-                sender.sendMessage("<gray>Reloading Config</gray>")
+                sender.sendMessage(mm.deserialize("<gray>Reloading Config</gray>"))
                 ConfigManager.reload()
                 ConfigManager.save()
-                sender.sendMessage("<gray>Reloaded Config Files</gray>")
+                sender.sendMessage(mm.deserialize("<gray>Reloaded Config Files</gray>"))
 
-                sender.sendMessage("<gray>Loading Database</gray>")
+                sender.sendMessage(mm.deserialize("<gray>Loading Database</gray>"))
                 DatabaseManager.init()
-                sender.sendMessage("<gray>Reloaded Database</gray>")
+                sender.sendMessage(mm.deserialize("<gray>Reloaded Database</gray>"))
             })
         }
     }
