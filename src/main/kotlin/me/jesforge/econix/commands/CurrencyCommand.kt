@@ -42,13 +42,13 @@ class CurrencyCommand {
                                     args[1].toString().toDouble()
                                 } ${
                                     it.value.symbol.ifEmpty { it.value.name }
-                                }</gray> to <b>${(args[0] as Player).name}</b>.</color>"))
+                                }</gray> to <b>${(player).name}</b>.</color>"))
                             } else if (req == ErrorCodes.DATABASE_ERROR) {
                                 sender.sendMessage(mm.deserialize("<color:#ff5d3d>An error has occurred with the database</color>"))
                             } else if (req == ErrorCodes.NO_CURRENCY) {
                                 sender.sendMessage(mm.deserialize("The currency <b>${it.value.id}</b> was not found!"))
                             } else if (req == ErrorCodes.NO_USER) {
-                                sender.sendMessage(mm.deserialize("The player <b>${(args[0] as Player).name}</b> was not found!"))
+                                sender.sendMessage(mm.deserialize("The player <b>${(player).name}</b> was not found!"))
                             }
                         })
                     }
@@ -77,9 +77,9 @@ class CurrencyCommand {
                                     args[1].toString().toDouble()
                                 } ${
                                     it.value.symbol.ifEmpty { it.value.name }
-                                }</gray> from <b>${(args[0] as Player).name}'s account</b>. <gray>(now ${
+                                }</gray> from <b>${(player).name}'s account</b>. <gray>(now ${
                                     UserServices().getCurrency(
-                                        (args[0] as Player).uniqueId.toString(), it.value.id
+                                        (player).uniqueId.toString(), it.value.id
                                     )
                                 } ${it.value.symbol})</color>"))
                             } else if (req == ErrorCodes.DATABASE_ERROR) {
@@ -87,7 +87,7 @@ class CurrencyCommand {
                             } else if (req == ErrorCodes.NO_CURRENCY) {
                                 sender.sendMessage(mm.deserialize("The currency <b>${it.value.id}</b> was not found!"))
                             } else if (req == ErrorCodes.NO_USER) {
-                                sender.sendMessage(mm.deserialize("The player <b>${(args[0] as Player).name}</b> was not found!"))
+                                sender.sendMessage(mm.deserialize("The player <b>${(player).name}</b> was not found!"))
                             }
                         })
                     }
@@ -116,13 +116,13 @@ class CurrencyCommand {
                                     args[1].toString().toDouble()
                                 } ${
                                     it.value.symbol.ifEmpty { it.value.name }
-                                }</gray> to <b>${(args[0] as Player).name}'s</b> account.</color>"))
+                                }</gray> to <b>${(player).name}'s</b> account.</color>"))
                             } else if (req == ErrorCodes.DATABASE_ERROR) {
                                 sender.sendMessage(mm.deserialize("<color:#ff5d3d>An error has occurred with the database</color>"))
                             } else if (req == ErrorCodes.NO_CURRENCY) {
                                 sender.sendMessage(mm.deserialize("The currency <b>${it.value.id}</b> was not found!"))
                             } else if (req == ErrorCodes.NO_USER) {
-                                sender.sendMessage(mm.deserialize("The player <b>${(args[0] as Player).name}</b> was not found!"))
+                                sender.sendMessage(mm.deserialize("The player <b>${(player).name}</b> was not found!"))
                             }
                         })
                     }
@@ -146,13 +146,13 @@ class CurrencyCommand {
                                     args[1].toString().toDouble()
                                 } ${
                                     it.value.symbol.ifEmpty { it.value.name }
-                                }</gray> to <b>${(args[0] as Player).name}</b>.</color>"))
+                                }</gray> to <b>${(player).name}</b>.</color>"))
                             } else if (req == ErrorCodes.DATABASE_ERROR) {
                                 sender.sendMessage(mm.deserialize("<color:#ff5d3d>An error has occurred with the database</color>"))
                             } else if (req == ErrorCodes.NO_CURRENCY) {
                                 sender.sendMessage(mm.deserialize("The currency <b>${it.value.id}</b> was not found!"))
                             } else if (req == ErrorCodes.NO_USER) {
-                                sender.sendMessage(mm.deserialize("The player <b>${(args[0] as Player).name}</b> was not found!"))
+                                sender.sendMessage(mm.deserialize("The player <b>${(player).name}</b> was not found!"))
                             }
                         }
 
@@ -221,7 +221,7 @@ class CurrencyCommand {
 
                         sender.sendMessage(
                             mm.deserialize(
-                                "<color:#9effa1>The Balance from <b>${(args[0] as Player).name}'s</b> is <gray>${req} ${it.value.symbol}</gray> to  account.</color>"
+                                "<color:#9effa1>The Balance from <b>${(player).name}'s</b> is <gray>${req} ${it.value.symbol}</gray> to  account.</color>"
                             )
                         )
                     })
