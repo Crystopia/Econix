@@ -6,10 +6,22 @@ import me.jesforge.econix.Econix
 import me.jesforge.econix.config.ConfigManager
 import me.jesforge.econix.data.Currency
 import me.jesforge.econix.database.DatabaseManager
+import me.jesforge.econix.database.tables.Users
 import org.bukkit.entity.Player
-import java.util.UUID
+import org.ktorm.dsl.*
+import java.util.*
 
 class CurrencyServices {
+
+    fun test(uuid: String) {
+        val user = DatabaseManager.database!!.from(Users).select(Users.currencys).where(
+            Users.uuid.eq(uuid)
+        ).mapNotNull {
+            it[Users.currencys]
+        }
+
+        println("TEST: " + user)
+    }
 
     fun updatePlayerCurrencies(player: Player) {
         val currentCurrencies = ConfigManager.currency.currencys.map { it.value.id }
@@ -75,6 +87,7 @@ class CurrencyServices {
 
     fun getTopFromCurrency(currency: String, limit: Int): List<Pair<String, Double>> {
         try {
+
             DatabaseManager.database!!.useConnection { connection ->
                 val selectQuery = connection.prepareStatement(
                     "SELECT uuid, currencys FROM users"

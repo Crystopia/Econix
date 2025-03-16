@@ -9,6 +9,7 @@ import me.jesforge.econix.commands.EconixCommand
 import me.jesforge.econix.config.ConfigManager
 import me.jesforge.econix.database.DatabaseManager
 import me.jesforge.econix.events.JoinEvent
+import me.jesforge.econix.functions.CurrencyServices
 import me.jesforge.econix.hooks.PlaceholderAPIHook
 import me.jesforge.econix.hooks.vault.VaultEconomyHook
 import me.jesforge.econix.utils.DefaultLoader
@@ -49,6 +50,9 @@ class Econix : JavaPlugin() {
         } else {
             logger.warning("PlaceholderAPI is not enabled!")
         }
+
+        // Test
+        CurrencyServices().test("d52e14ce-5bce-4359-8764-399674a3d2aa")
 
         if (Bukkit.getPluginManager().isPluginEnabled("Vault")) {
             logger.info("Hooking into Vault")

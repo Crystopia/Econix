@@ -16,7 +16,6 @@ object DatabaseManager {
                 password = ConfigManager.settings.database.password,
                 driver = "com.mysql.cj.jdbc.Driver",
             )
-            createUsers()
             Econix.instance.logger.info("Loaded database connection")
         } catch (ex: Exception) {
             Econix.instance.logger.warning(ex.toString())
