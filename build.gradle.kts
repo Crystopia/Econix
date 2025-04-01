@@ -98,7 +98,7 @@ publishing {
                 create<BasicAuthentication>("basic")
             }
         }
-    }
+    } 
     publications {
         create<MavenPublication>("reposilite") {
             from(components["java"])
