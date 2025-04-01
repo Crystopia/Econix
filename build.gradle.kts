@@ -87,16 +87,19 @@ tasks {
 publishing {
     repositories {
         maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/Crystopia/Econix")
+            name = "Reposilite"
+            url = uri("https://repo.crystopia.net/releases") // Oder "snapshots" für Snapshot-Versionen
             credentials {
-                username = System.getenv("Crystopia") ?: "USERNAME"
-                password = System.getenv("GH_PACKAGES_TOKEN") ?: "TOKEN"
+                username = System.getenv("REPOSILITE_USER") ?: "USER"
+                password = System.getenv("REPOSILITE_TOKEN") ?: "TOKEN"
+            }
+            authentication {
+                create<BasicAuthentication>("basic")
             }
         }
     }
     publications {
-        create<MavenPublication>("gpr") {
+        create<MavenPublication>("reposilite") {
             from(components["java"])
             artifactId = "econix"
             groupId = groupID
@@ -104,6 +107,7 @@ publishing {
         }
     }
 }
+
 
 bukkit {
     name = projectName
