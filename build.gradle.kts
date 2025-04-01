@@ -84,14 +84,15 @@ tasks {
     }
 }
 
+
 publishing {
     repositories {
         maven {
             name = "Reposilite"
             url = uri("https://repo.crystopia.net/releases") // Oder "snapshots" für Snapshot-Versionen
             credentials {
-                username = System.getenv("REPOSILITE_USER") ?: "USER"
-                password = System.getenv("REPOSILITE_TOKEN") ?: "TOKEN"
+                username = providers.environmentVariable("REPOSILITE_USER").orNull ?: "USERNAME"
+                password = providers.environmentVariable("REPOSILITE_TOKEN").orNull ?: "TOKEN"
             }
             authentication {
                 create<BasicAuthentication>("basic")
